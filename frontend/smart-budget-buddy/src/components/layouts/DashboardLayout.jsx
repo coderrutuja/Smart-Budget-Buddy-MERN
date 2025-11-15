@@ -1,5 +1,9 @@
+// frontend\smart-budget-buddy\src\components\layouts\DashboardLayout.jsx
 import React, { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
+
+import Navbar from "./Navbar";
+import SideMenu from "./SideMenu";
 
 
 const DashboardLayout = ({ activeMenu, children }) => {

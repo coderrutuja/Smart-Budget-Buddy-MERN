@@ -1,3 +1,4 @@
+// D:\2025\mern\smart-budget-buddy\frontend\smart-budget-buddy\src\pages\Auth\SignUp.jsx
 import React, { useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
 import { Link, useNavigate } from 'react-router-dom'

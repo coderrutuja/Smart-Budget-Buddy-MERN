@@ -6,7 +6,7 @@ exports.addExpense = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        const { icon, category, amount, date } = req.body;
+        const { icon, category, amount, date, notes, tags, receiptUrl } = req.body;
 
         // Validation: Check for missing fields
         if(!category || !amount || !date) {
@@ -19,6 +19,9 @@ exports.addExpense = async (req, res) => {
             category,
             amount,
             date: new Date(date),
+            notes: notes || "",
+            tags: Array.isArray(tags) ? tags : (tags ? [tags] : []),
+            receiptUrl: receiptUrl || null,
         });
 
         await newExpense.save();
@@ -34,7 +37,7 @@ exports.getAllExpense = async (req, res) => {
     const userId = req.user.id;
 
     try {
-        const expense = (await Expense.find({ userId })).toSorted({ date: -1 });
+        const expense = await Expense.find({ userId }).sort({ date: -1 });
         res.json(expense);
     }
     catch (error) {
@@ -74,6 +77,19 @@ exports.downloadExpenseExcel = async (req, res) => {
         res.download('expense_details.xlsx');
     }
     catch (error) {
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
+// Upload Expense Receipt
+exports.uploadExpenseReceipt = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
+        const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+        res.status(200).json({ imageUrl });
+    } catch (error) {
         res.status(500).json({ message: "Server Error" });
     }
 };

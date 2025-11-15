@@ -1,7 +1,11 @@
+// frontend\smart-budget-buddy\src\components\layouts\SideMenu.jsx
+
 import React, { useContext } from 'react'
 import { SIDE_MENU_DATA } from '../../utils/data'
 import { UserContext } from '../../context/UserContext'
 import { useNavigate } from 'react-router-dom';
+import CharAvatar from "../common/CharAvatar";
+
 
 const SideMenu = ({ activeMenu }) => {
 

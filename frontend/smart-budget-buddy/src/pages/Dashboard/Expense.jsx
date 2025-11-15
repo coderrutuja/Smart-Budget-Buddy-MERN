@@ -46,7 +46,7 @@ const Expense = () => {
 
   // Handle Add Expense
   const handleAddExpense = async (expense) => {
-    const { category, amount, date, icon } = expense;
+    const { category, amount, date, icon, notes, tags, receiptUrl } = expense;
 
     // Validation Checks
     if (!category.trim()) {
@@ -70,6 +70,9 @@ const Expense = () => {
         amount,
         date,
         icon,
+        notes,
+        tags,
+        receiptUrl,
       });
 
       setOpenAddExpenseModal(false);
@@ -118,7 +121,8 @@ const Expense = () => {
       );
 
       // Create a URL for the blob
-      const url = window.URL.createObjectURL(new Blob(response.data));
+      const blob = response.data instanceof Blob ? response.data : new Blob([response.data]);
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute("download", "expense_details.xlsx");

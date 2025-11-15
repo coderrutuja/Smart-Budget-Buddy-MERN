@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { LuPlus } from 'react-icons/lu';
 import CustomBarChart from '../Charts/CustomBarChart'
 import { prepareIncomeBarChartData } from '../../utils/helper';
+import axiosInstance from '../../utils/axiosInstance';
+import { API_PATHS } from '../../utils/apiPaths';
+import toast from 'react-hot-toast';
 
 const IncomeOverview = ({transactions, onAddIncome}) => {
 
@@ -23,10 +26,26 @@ const IncomeOverview = ({transactions, onAddIncome}) => {
                 </p>
             </div>
 
-            <button className='add-btn' onClick={onAddIncome}>
-                <LuPlus className='text-lg' />
-                Add Income
-            </button>
+            <div className='flex items-center gap-2'>
+                <button
+                    className='card-btn'
+                    onClick={async () => {
+                        try {
+                            await axiosInstance.post(API_PATHS.SHEETS.EXPORT_INCOME);
+                            toast.success('Export triggered');
+                        } catch (e) {
+                            const msg = e?.response?.data?.message || 'Export not configured yet';
+                            toast.error(msg);
+                        }
+                    }}
+                >
+                    Export to Sheets
+                </button>
+                <button className='add-btn' onClick={onAddIncome}>
+                    <LuPlus className='text-lg' />
+                    Add Income
+                </button>
+            </div>
         </div>
 
         <div className='mt-10'>

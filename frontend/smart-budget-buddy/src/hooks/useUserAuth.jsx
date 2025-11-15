@@ -1,3 +1,5 @@
+// frontend\smart-budget-buddy\src\hooks\useUserAuth.jsx
+
 import { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserContext"
 import { useNavigate } from "react-router-dom";
